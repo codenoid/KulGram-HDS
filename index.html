@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>KulGram Yubi</title>
+    <link href="https://fonts.googleapis.com/css?family=Averia+Sans+Libre" rel="stylesheet">
+    <style media="screen">
+      body {background-color: #75c0d1;text-align: center;}
+      b {font-family: 'Averia Sans Libre', cursive;}
+      .list {display: block;text-align: center;width: 80%;margin:0px auto;}
+      .list > .item {
+        text-align: center;
+        padding: 10px 5px;
+        cursor: pointer;
+        width: 200px;
+        display: inline-block;
+        background-color: #e661b7;
+        color: white;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        margin: 20px auto;
+        border-radius: 5px;
+      }
+      .list > .item img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: inline-block;
+        vertical-align: top;
+      }
+      .list > .item b {
+        vertical-align: top;
+        display: inline-block;
+      }
+      .detail {
+        background-color: #798dd7;
+        padding: 20px 10px;
+        border-radius: 3px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        width: 500px;
+        margin: 0px auto;
+      }
+      .detail > img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+      }
+      .detail > .title {
+        font-family: 'Averia Sans Libre', cursive;
+        font-size: 30px;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="list">
+
+    </div>
+    <div class="detail" style="display:none;">
+
+    </div>
+    <div class="box">
+
+    </div>
+    <div class="detail-template" style="display:none;">
+      <img class="detail-image" src="https://img-global.cpcdn.com/003_recipes/9a16df075192dfb9/260x366cq50/photo.jpg" alt="">
+      <div class="detail-title title">
+        Rubi
+      </div>
+    </div>
+    <div class="template" style="display:none;">
+      <div class="item">
+        <img src="https://img-global.cpcdn.com/003_recipes/9a16df075192dfb9/260x366cq50/photo.jpg" alt="">
+        <b>Kuda - Umur 25 tahun</b>
+      </div>
+    </div>
+    <div class="changer">
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+      function detail(what) {
+
+        var name = what.nama
+        ,   img  = what.foto
+        ,   age  = what.umur
+        ,   id   = what.id;
+
+        $('.template .item').attr('onclick', 'go('+id+');')
+        $('.template b').html(name + ' - Berumur '+age+' tahun')
+        $('.template img').attr('src', img);
+        $('.list').append($('.template').html());
+
+      }
+      function go(url,w)
+      {
+        if(!$('.box > [detail-id="'+url+'"]').html())
+        {
+          $.ajax({
+            url: "index.php",
+            type:"POST",
+            dataType:"html",
+            data:{wdyw:14,w:url},
+          beforeSend:function(){
+
+          },
+          success:function(e){
+            $('.box').append(e);
+
+          }
+        });
+        }
+        else {
+          $('.changer').html($('.box > [detail-id="'+url+'"]').html());
+        }
+      }
+      function for_detail(what){
+        $('.detail').show();
+        $('.detail').html('');
+        var name = what.nama
+        ,   img  = what.foto
+        ,   age  = what.umur
+        ,   id   = what.id;
+
+        $('.detail-template .detail-image').attr('src', img);
+        $('.detail-template .detail-title').html(name);
+
+        $('.detail').append($('.detail-template').html());
+      }
+        $.ajax({
+          url: "index.php",
+          type:"POST",
+          dataType:"html",
+          data:{wdyw:13,i:'d'},
+        beforeSend:function(){
+
+        },
+        success:function(e){
+          $('.box').append(e);
+        }
+      });
+    </script>
+  </body>
+</html>
